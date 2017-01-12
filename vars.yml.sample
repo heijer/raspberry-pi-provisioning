@@ -1,0 +1,2 @@
+# password
+pi_passwd_hased: # put here your hashed password, see http://docs.ansible.com/ansible/faq.html#how-do-i-generate-crypted-passwords-for-the-user-module

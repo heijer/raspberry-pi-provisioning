@@ -1,0 +1,71 @@
+---
+# tasks file for common
+
+- name: Update cache
+  become: yes
+  apt: update_cache=yes
+
+# Update all packages to the latest version
+- name: Upgrade system
+  become: yes
+  apt: upgrade=yes
+
+- name: Set timezone to Europe/Amsterdam (CEST)
+  become: yes
+  # src is real file, dest is the symbolic link
+  file:
+    src=/usr/share/zoneinfo/Europe/Amsterdam
+    dest=/etc/localtime
+    owner=root
+    group=root
+    state=link
+    force=yes
+
+- name: Install essential packages
+  become: yes
+  apt: pkg={{ item }} state=installed
+  with_items:
+     - locales
+     - cifs-utils
+
+# Ensure a locale exists.
+- name: Ensure locales exist
+  become: yes
+  locale_gen:
+    name={{ item }}
+    state=present
+  with_items:
+     - en_US.UTF-8
+     - en_GB.UTF-8
+     - nl_NL.UTF-8
+
+- name: check whether local ~/.ssh/id_rsa.pub exists
+  local_action: stat path="~/.ssh/id_rsa.pub"
+  register: result
+
+- name: create local ssh key pair
+  local_action: shell ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa -q -N ""
+  when: not result.stat.exists
+
+# Using key data from a local file on the management machine
+- name: authorized key
+  authorized_key: user="{{ ansible_user }}"
+                  key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+- name: replace default password with strong one
+  become: yes
+  user:
+    name="{{ ansible_user }}"
+    generate_ssh_key=yes
+    ssh_key_bits=2048
+    ssh_key_file=.ssh/id_rsa
+    password="{{ pi_passwd_hashed }}"
+    update_password=always
+
+- name: Install more packages
+  become: yes
+  apt: pkg={{ item }} state=installed
+  with_items:
+     - git
+     - subversion
+     - vlc

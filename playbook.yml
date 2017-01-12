@@ -1,0 +1,7 @@
+---
+- name: install raspberry pi
+  hosts: all
+  vars_files:
+    - "~/.ansible/vars.yml"
+  roles:
+    - { role: common, tags: [ 'common' ] }

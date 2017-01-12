@@ -1,0 +1,2 @@
+[pi]
+rp3b ansible_user='pi'
