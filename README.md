@@ -7,16 +7,16 @@ Ansible provisioning for setting up Raspberry Pi with raspbian
   check version with `ansible --version`. I'm currently using `ansible 2.2.0.0`
 * create a strong hashed password for your pi user (http://docs.ansible.com/ansible/faq.html#how-do-i-generate-crypted-passwords-for-the-user-module)
   create a file `~/.ansible/vars.yml` and put your hashed password in like
-  ```
-  # password
-  pi_passwd_hased: # put here your hashed password
-  ```
+```
+# password
+pi_passwd_hased: # put here your hashed password
+```
 * add an alias for your pi to your ssh config file `~/.ssh/config`. Mine looks contains something like this:
-  ```
-  Host rp3b
-     HostName <put-here-your-pi-ip-address>
-     User <put-here-your-pi-user-name>
-  ```
+```
+Host rp3b
+   HostName <put-here-your-pi-ip-address>
+   User <put-here-your-pi-user-name>
+```
 
 ## Run the playbook
 
