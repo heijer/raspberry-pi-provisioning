@@ -3,6 +3,7 @@ Ansible provisioning for setting up Raspberry Pi with raspbian
 
 ## Preparation
 
+* download raspbian image (https://www.raspberrypi.org/downloads/raspbian/) and install it an SD card
 * install ansible (http://docs.ansible.com/ansible/intro_installation.html).
   check version with `ansible --version`. I'm currently using `ansible 2.2.0.0`
 * create a strong hashed password for your pi user (http://docs.ansible.com/ansible/faq.html#how-do-i-generate-crypted-passwords-for-the-user-module)
@@ -11,7 +12,7 @@ Ansible provisioning for setting up Raspberry Pi with raspbian
 # password
 pi_passwd_hased: # put here your hashed password
 ```
-* add an alias for your pi to your ssh config file `~/.ssh/config`. Mine looks contains something like this:
+* add an alias for your pi to your ssh config file `~/.ssh/config`. Mine contains something like this:
 ```
 Host rp3b
    HostName <put-here-your-pi-ip-address>
